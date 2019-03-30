@@ -2,15 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# load data
-Data = pd.read_excel("Exercise.xlsx", sheetname="Data")
-AdStock = pd.read_excel("Exercise.xlsx", sheetname="AdStock")
 
-# 0. Inspect the data - make sure you understand all variables and the objective of this exercise. Is the data "clean"/ meaningfull?									
-
-names = list(Data)
-print(names)
-# Make functions to easily controll what is executed
 
 
 
@@ -56,9 +48,22 @@ def clean_data(Data):
 		
 		if row["Media spend"] != sum((row["TV"], row["Radio"], row["Dailies"])):
 			row["Media spend"] = sum((row["TV"], row["Radio"], row["Dailies"]))
+			Data.loc[i, "Media spend"] = row["Media spend"]
 
 	print("Done cleaning")
 	return Data
 
-Data = clean_data(Data)
-Exercise_0(Data)
+
+
+if __name__ ==  "__main__":
+	# load data
+	Data = pd.read_excel("Exercise.xlsx", sheetname="Data")
+	AdStock = pd.read_excel("Exercise.xlsx", sheetname="AdStock")
+
+	# 0. Inspect the data - make sure you understand all variables and the objective of this exercise. Is the data "clean"/ meaningfull?									
+
+	names = list(Data)
+	print(names)
+	# Make functions to easily controll what is executed
+	Data = clean_data(Data)
+	Exercise_0(Data)

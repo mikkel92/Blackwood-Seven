@@ -13,7 +13,7 @@ names = list(Data)
 print(names)
 # Make functions to easily controll what is executed
 
-data = clean_data(Data)
+Data = clean_data(Data)
 
 def linear_model(x, a, b):
 	return a * x + b
@@ -47,12 +47,12 @@ def linear_regression(Data,variable):
 	plt.show()
 	plt.close("all")
 
-
+"""
 linear_regression(Data,"Media spend")
 linear_regression(Data,"TV")
 linear_regression(Data,"Radio")
 linear_regression(Data,"Dailies")
-
+"""
 
 
 from sklearn.linear_model import LinearRegression
@@ -62,9 +62,9 @@ from sklearn import metrics
 
 variables = ["TV","Radio","Dailies"]
 
-def Hyperplane_fit(variables):
+def Hyperplane_fit(variables,Data):
 
-	Data = Data = Data[Data["Media spend"] > 0]
+	Data = Data[Data["Media spend"] > 0]
 	zero_point = np.average(Data["Sales"].nsmallest(5))
 
 	for i in range(0,100):
@@ -84,9 +84,12 @@ def Hyperplane_fit(variables):
 		plt.style.use('ggplot')
 		colors = ["green","blue","orange"]
 		for variable in range(0,len(b)):
-			plt.plot(y + zero_point, linear_model(y, a[variable][0], b[variable] ),c=colors[variable], linewidth=1.5, linestyle=":",alpha=0.1,label='%s   fit: $ per sale = %5.1f * sales + %5.0f' % (variables[variable],a[variable][0],b[variable]))
+			if i == 0:
+				plt.plot(y + zero_point, linear_model(y, a[variable][0], b[variable] ),c=colors[variable], linewidth=1.5, linestyle=":",alpha=1,label='%s   fit: $ per sale = %5.1f * sales + %5.0f' % (variables[variable],a[variable][0],b[variable]))
+			else:
+				plt.plot(y + zero_point, linear_model(y, a[variable][0], b[variable] ),c=colors[variable], linewidth=1.5, linestyle=":",alpha=0.1)
 
-		#plt.legend()
+		plt.legend()
 	plt.xlabel("Sales")
 	plt.ylabel("$ spend")
 
@@ -100,3 +103,5 @@ def Hyperplane_fit(variables):
 
 	plt.show()
 	plt.close("all")
+
+Hyperplane_fit(variables,Data)
